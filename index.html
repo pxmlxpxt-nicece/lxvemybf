@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise Card for You</title>
+
+    <!-- ดึงฟอนต์ Itim (ไอติม) จาก Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Itim', cursive, sans-serif;
+        }
+
+        body {
+            background-color: #ffe6ea;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .card-container {
+            width: 90%;
+            max-width: 450px;
+            height: 650px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ปุ่มกดเปลี่ยนหน้า */
+        .btn {
+            background: #ff6b81;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 107, 129, 0.4);
+            transition: transform 0.2s, background 0.2s;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: #ff4757;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* --- หน้า 1: ชมพู + รูปหลัง --- */
+        #page1 {
+            background: #ffb6c1;
+            color: #d63031;
+            text-align: center;
+        }
+
+        .hero-title {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 15px;
+            width: 100%;
+        }
+
+        /* โค้ดสร้างหัวใจตรงกลางหน้าแรก */
+        .heart-center {
+            position: relative;
+            width: 100px;
+            height: 90px;
+            margin: auto;
+            animation: pulse 1s infinite alternate;
+        }
+
+        .heart-center::before,
+        .heart-center::after {
+            content: "";
+            position: absolute;
+            left: 50px;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: #ff4757;
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart-center::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        /* เอฟเฟกต์หัวใจเต้น */
+        @keyframes pulse {
+            0% { transform: scale(0.9); }
+            100% { transform: scale(1.15); }
+        }
+
+        /* --- หน้า 2 & 3: เรื่องราว + รูปสี่เหลี่ยม --- */
+        .story-box {
+            text-align: center;
+            width: 100%;
+        }
+
+        .story-title {
+            color: #ff4757;
+            margin-bottom: 10px;
+        }
+
+        .story-text {
+            color: #555;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .square-img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: 4px solid #fff0f3;
+        }
+
+        /* --- หน้า 4: รวมรูปเยอะๆ (Gallery Grid) --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-height: 450px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .gallery-grid img:hover {
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        
+        <!-- หน้า 1 -->
+        <section class="page active" id="page1">
+            <div class="hero-title">
+                <h1>Kitsanaphon phuriwattanakul! 💕</h1>
+                <p>สวัสดีค่ะ คุณกฤษณพล ภูริวัฒน์ธนากุล</p>
+            </div>
+            
+            <!-- หัวใจดุ๊กดิ๊กตรงกลาง -->
+            <div class="heart-center"></div>
+
+            <button class="btn" onclick="nextPage(2)">ถัดไป ➔</button>
+        </section>
+
+        <!-- หน้า 2 -->
+        <section class="page" id="page2">
+            <div class="story-box">
+                <h2 class="story-title">ไปดูเว้ยยยยเห้ยย้ย้</h2>
+                <p class="story-text">ฟิิิินนน อยากทำให้แฟนเล่นน</p>
+            </div>
+            <img src="เก้า.jpg" class="square-img" alt="ภาพความทรงจำ 1">
+            
+            <div class="nav-buttons">
+                <button class="btn" onclick="nextPage(1)">❮ ย้อนกลับ</button>
+                <button class="btn" onclick="nextPage(3)">ถัดไป ➔</button>
+            </div>
+        </section>
+
+        <!-- หน้า 3 -->
+        <section class="page" id="page3">
+            <div class="story-box">
+                <h2 class="story-title">เฟีี้ยวยังง</h2>
+                <p class="story-text">รูปเก่าๆอ่่าาาแต่ไม่สนอยากทำแอปให้โง่ๆให้แฟนกดเล่น่น่น</p>
+            </div>
+            <img src="เก้าโฟโต้บูะ.jpg" class="square-img" alt="ภาพความทรงจำ 2">
+            
+            <div class="nav-buttons">
+                <button class="btn" onclick="nextPage(2)">❮ ย้อนกลับ</button>
+                <button class="btn" onclick="nextPage(4)">ถัดไป ➔</button>
+            </div>
+        </section>
+
+        <!-- หน้า 4 -->
+        <section class="page" id="page4">
+            <h2 class="story-title">Moments of Us 📸</h2>
+            <div class="gallery-grid">
+                <img src="เก้าเก้า.jpg" alt="Photo 1">
+                <img src="เก้้า้า้าา้.jpg" alt="Photo 2">
+                <img src="เขิน.jpg" alt="Photo 3">
+                <img src="คูนน้องเก้า.jpg" alt="Photo 4">
+                <img src="ดอกไม้เก้าา.jpg" alt="Photo 5">
+                <img src="น้องหมู.jpg" alt="Photo 6">
+                <img src="น่ารักกก.jpg" alt="Photo 7">
+                <img src="น่ารักปะ.jpg" alt="Photo 8">
+                <img src="มาเฝ้าสวัสดิการจำเป้รร.jpg" alt="Photo 9">
+                <img src="พวงกุญแจคู่่.jpg" alt="Photo 10">
+                <img src="วาโรวะวะ.jpg" alt="Photo 11">
+                <img src="อันนี้กูน่ารัก.jpg" alt="Photo 12">
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn" onclick="nextPage(3)">❮ ย้อนกลับ</button>
+                <button class="btn" onclick="nextPage(1)">เริ่มใหม่ ↺</button>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function nextPage(pageNumber) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById('page' + pageNumber).classList.add('active');
+        }
+    </script>
+</body>
+</html>
